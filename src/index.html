@@ -1,13 +1,333 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>CreateMfeApp</title>
-  <base href="/">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
-</head>
-<body>
-  <app-root></app-root>
-</body>
+  <head>
+    <meta charset="utf-8" />
+    <title>Test Page</title>
+    <base href="/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="https://dds.dell.com/components/2.27.0/js/index.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://dds.dell.com/components/2.27.0/css/dds-reboot.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://dds.dell.com/components/2.27.0/css/dds-fonts.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://dds.dell.com/components/2.27.0/css/dds-icons.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://dds.dell.com/components/2.27.0/css/dds-helpers.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://dds.dell.com/components/2.27.0/css/dds-main.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://dds.dell.com/components/2.27.0/css/dds-templates.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://sales-sit-g4.dell.com/salesapp/design/global.css"
+    />
+  </head>
+
+
+  <body class="dds__m-0 dds__w-100">
+    <div class="dds__container-fluid dds__mt-3" id="hostnameDiv">
+      <div
+        class="dds__d-flex dds__flex-row dds__flex-wrap"
+        style="align-items: center"
+      >
+        <div class="field-block dds__pr-3 dds__d-flex dds__flex-column">
+          <label class="field-title">Save Auth:</label>
+          <input
+            style="width: 36.5px; height: 36.5px"
+            type="checkbox"
+            id="save_informations"
+            name="save_informations"
+            checked
+            onchange="handleInputChecked()"
+          />
+        </div>
+        <div class="field-block dds__pr-3" style="width: 280px">
+          <label class="field-title" id="label_inp_host" for="scales"
+            >Hostname:</label
+          >
+          <input
+            class="dds__input-text"
+            type="text"
+            id="hostname"
+            name="hostname"
+            onkeyup="disabledButton()"
+          />
+        </div>
+        <div class="field-block dds__pr-3" style="width: 200px">
+          <label class="field-title" id="label_inp_host" for="scales"
+            >Quote Number:</label
+          >
+          <input
+            class="dds__input-text"
+            maxlength="17"
+            type="text"
+            id="quote-number"
+            name="quote-number"
+            onkeyup="disabledButton()"
+          />
+        </div>
+        <div class="field-block dds__pr-3" style="width: 80px">
+          <label class="field-title" id="label_inp_host" for="version"
+            >Version:</label
+          >
+          <input
+            class="dds__input-text"
+            type="text"
+            id="version"
+            name="version"
+            onkeyup="disabledButton()"
+          />
+        </div>
+        <div class="field-block dds__pr-3" style="width: 90px">
+          <label class="field-title" id="label_inp_host" for="country"
+            >Country:</label
+          >
+          <input
+            class="dds__input-text"
+            type="text"
+            id="country"
+            name="country"
+            onkeyup="disabledButton()"
+          />
+        </div>
+        <div class="field-block dds__pr-3" style="width: 90px">
+          <label class="field-title" id="label_inp_host" for="language"
+            >Language:</label
+          >
+          <input
+            class="dds__input-text"
+            type="text"
+            id="language"
+            name="language"
+            onkeyup="disabledButton()"
+          />
+        </div>
+        <div
+          class="dds__d-flex dds__flex-row dds__flex-wrap"
+          style="align-items: center"
+        >
+          <div class="field-block dds__pt-4">
+            <button
+              class="dds__button dds__button--primary"
+              type="button"
+              onclick="authenticateUser()"
+              id="btnAuthenticate"
+            >
+              Authenticate Me!
+            </button>
+          </div>
+        </div>
+      </div>
+
+
+      <hr />
+    </div>
+
+
+    <div class="dds__container-fluid dds__h-100 dds__p-3" id="parentDiv"></div>
+  </body>
+
+
+  <script>
+    let loginBaseUrl =
+      'https://di-federationgateway-g2.di-np.pcf.dell.com/dci/fp/session/authorize?client_id=fcfa42a2-9b96-43a0-9e19-0672e0b23eb2&redirect_uri=';
+    let loginRedirectUrl =
+      loginBaseUrl + encodeURIComponent(window.location.href);
+
+
+    let hostnameInput = '';
+    let quoteNumber = '';
+    let country = '';
+    let language = '';
+    let checkedInput = true;
+
+
+    const login = loginBaseUrl + encodeURIComponent(window.location.href);
+    const getValueFromHtml = tagId => document.querySelector(`#${tagId}`).value;
+
+
+    const checkElement = document.getElementById('save_informations');
+    const getObject = sessionStorage.getItem('mfe-infor');
+    const dataBase = JSON.parse(getObject);
+
+
+    const defaultHostname = 'https://sales-sit-g4.dell.com';
+    const defaultVersion = '1';
+    const defaultLanguage = 'en';
+    const defaultQuoteNumber = '';
+    const defaultCountry = 'US';
+
+
+    document.querySelector('#hostname').value =
+      dataBase?.hostname ?? defaultHostname;
+
+
+    document.querySelector('#version').value =
+      dataBase?.version ?? defaultVersion;
+
+
+    document.querySelector('#quote-number').value =
+      dataBase?.quoteNumber ?? defaultQuoteNumber;
+
+
+    document.querySelector('#language').value =
+      dataBase?.language ?? defaultLanguage;
+
+
+    document.querySelector('#country').value =
+      dataBase?.country ?? defaultCountry;
+
+
+    function authenticateUser() {
+      const hostnameValue = getValueFromHtml('hostname') ?? '';
+      const versionValue = getValueFromHtml('version') ?? '';
+      const quoteNumberValue = getValueFromHtml('quote-number') ?? '';
+      const countryValue = getValueFromHtml('country') ?? '';
+      const languageValue = getValueFromHtml('language') ?? '';
+
+
+      hostnameInput = hostnameValue.trim();
+      quoteNumberInput = quoteNumberValue.trim();
+      versionInput = versionValue.trim();
+      countryInput = countryValue.trim();
+      languageInput = languageValue.trim();
+
+
+      let hostname = hostnameInput ?? defaultHostname;
+
+
+      tokenAuth(hostname).then(result => {
+        if (result === 200) {
+          let hostnameDiv = document.querySelector('#hostnameDiv');
+          hostnameDiv.remove();
+          loadMfe();
+        }
+        if (result === 401) window.location.href = login;
+      });
+    }
+
+
+    async function tokenAuth(hostname) {
+      let response;
+      let tokenUrl = `${hostname}/salesapp/api/v1/Token/token`;
+
+
+      await fetch(tokenUrl, {
+        headers: { 'X-Requested-With': 'XMLHttpRequest' },
+        credentials: 'include'
+      })
+        .then(res => {
+          response = res.status;
+        })
+        .catch(err => {
+          console.log(err);
+        });
+
+
+      return response;
+    }
+
+
+    function autoAuth() {
+      const hostname = hostnameInput ?? dataBase?.hostname;
+
+
+      if (!document.getElementById('hostnameDiv')) {
+        tokenAuth(hostname).then(result => {
+          if (result === 401) window.location.href = login;
+        });
+      }
+    }
+
+
+    function handleInputChecked() {
+      checkedInput = checkElement.checked;
+    }
+
+
+    function disabledButton() {
+      if (document.getElementById('hostnameDiv')) {
+        getValueFromHtml('hostname') === '' ||
+        getValueFromHtml('version') === '' ||
+        getValueFromHtml('quote-number') === '' ||
+        getValueFromHtml('language') === '' ||
+        getValueFromHtml('country') === ''
+          ? (document.querySelector('#btnAuthenticate').disabled = true)
+          : (document.querySelector('#btnAuthenticate').disabled = false);
+        document.querySelector('#parentDiv').style.display = 'none';
+      }
+    }
+
+
+    function dataInforValidation() {
+      if (getObject) {
+        if (dataBase.save) {
+          hostnameDiv.remove();
+          hostnameInput = dataBase.hostname;
+          quoteNumberInput = dataBase.quoteNumber;
+          versionInput = dataBase.version;
+          countryInput = dataBase.country;
+          languageInput = dataBase.language;
+          loadMfe();
+        }
+
+
+        checkedInput = false;
+        checkElement.removeAttribute('checked');
+        disabledButton();
+      }
+    }
+
+
+    function loadMfe() {
+      var element = document.getElementsByTagName(
+        'create-mfe-app'
+      )[0];
+      if (element) element.remove();
+
+
+      const mfeElement = document.createElement('create-mfe-app');
+      const parentDiv = document.querySelector('#parentDiv');
+
+
+      const mfeInfor = {
+        save: checkedInput,
+        hostname: hostnameInput,
+        quoteNumber: quoteNumberInput,
+        version: versionInput,
+        country: countryInput,
+        language: languageInput
+      };
+      sessionStorage.setItem('mfe-infor', JSON.stringify(mfeInfor));
+
+
+      mfeElement.setAttribute('hostname', hostnameInput);
+      mfeElement.setAttribute('quote-number', quoteNumberInput);
+      mfeElement.setAttribute('version', versionInput);
+      mfeElement.setAttribute('country', countryInput);
+      mfeElement.setAttribute('language', languageInput);
+
+
+      parentDiv.appendChild(mfeElement);
+      parentDiv.removeAttribute('style');
+      autoAuth();
+    }
+
+
+    dataInforValidation();
+    disabledButton();
+  </script>
 </html>
