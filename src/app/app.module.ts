@@ -1,14 +1,20 @@
-import { CUSTOM_ELEMENTS_SCHEMA, DoBootstrap, Injector, NgModule, inject } from '@angular/core';
+import {
+  CUSTOM_ELEMENTS_SCHEMA,
+  DoBootstrap,
+  Injector,
+  NgModule,
+  inject
+} from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { AppComponent } from './app.component';
 import { createCustomElement } from '@angular/elements';
+
+import { AppComponent } from './app.component';
 
 @NgModule({
   declarations: [AppComponent],
   imports: [BrowserModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-
 export class AppModule implements DoBootstrap {
   readonly MFE_SELECTOR = 'create-mfe-app';
   injector = inject(Injector);

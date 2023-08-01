@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
@@ -35,7 +35,6 @@
       href="https://sales-sit-g4.dell.com/salesapp/design/global.css"
     />
   </head>
-
 
   <body class="dds__m-0 dds__w-100">
     <div class="dds__container-fluid dds__mt-3" id="hostnameDiv">
@@ -87,7 +86,6 @@
     </div>
     <div class="dds__container-fluid dds__h-100 dds__p-3" id="parentDiv"></div>
   </body>
-
 
   <script>
     let loginBaseUrl =
@@ -183,9 +181,7 @@
     }
 
     function loadMfe() {
-      var element = document.getElementsByTagName(
-        'create-mfe-app'
-      )[0];
+      var element = document.getElementsByTagName('create-mfe-app')[0];
       if (element) element.remove();
 
       const mfeElement = document.createElement('create-mfe-app');
@@ -193,7 +189,7 @@
 
       const mfeInfor = {
         save: checkedInput,
-        hostname: hostnameInput,
+        hostname: hostnameInput
       };
 
       sessionStorage.setItem('mfe-infor', JSON.stringify(mfeInfor));
