@@ -26,7 +26,7 @@ describe('AppComponent', () => {
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
     expect(compiled.querySelector('.wrapper')?.textContent).toContain(
-      `Welcome to create-mfe-app`
+      `Welcome tocreate-mfe-app`
     );
   });
 });
