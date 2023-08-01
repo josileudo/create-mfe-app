@@ -66,55 +66,7 @@
             onkeyup="disabledButton()"
           />
         </div>
-        <div class="field-block dds__pr-3" style="width: 200px">
-          <label class="field-title" id="label_inp_host" for="scales"
-            >Quote Number:</label
-          >
-          <input
-            class="dds__input-text"
-            maxlength="17"
-            type="text"
-            id="quote-number"
-            name="quote-number"
-            onkeyup="disabledButton()"
-          />
-        </div>
-        <div class="field-block dds__pr-3" style="width: 80px">
-          <label class="field-title" id="label_inp_host" for="version"
-            >Version:</label
-          >
-          <input
-            class="dds__input-text"
-            type="text"
-            id="version"
-            name="version"
-            onkeyup="disabledButton()"
-          />
-        </div>
-        <div class="field-block dds__pr-3" style="width: 90px">
-          <label class="field-title" id="label_inp_host" for="country"
-            >Country:</label
-          >
-          <input
-            class="dds__input-text"
-            type="text"
-            id="country"
-            name="country"
-            onkeyup="disabledButton()"
-          />
-        </div>
-        <div class="field-block dds__pr-3" style="width: 90px">
-          <label class="field-title" id="label_inp_host" for="language"
-            >Language:</label
-          >
-          <input
-            class="dds__input-text"
-            type="text"
-            id="language"
-            name="language"
-            onkeyup="disabledButton()"
-          />
-        </div>
+
         <div
           class="dds__d-flex dds__flex-row dds__flex-wrap"
           style="align-items: center"
@@ -131,12 +83,8 @@
           </div>
         </div>
       </div>
-
-
       <hr />
     </div>
-
-
     <div class="dds__container-fluid dds__h-100 dds__p-3" id="parentDiv"></div>
   </body>
 
@@ -147,67 +95,27 @@
     let loginRedirectUrl =
       loginBaseUrl + encodeURIComponent(window.location.href);
 
-
     let hostnameInput = '';
-    let quoteNumber = '';
-    let country = '';
-    let language = '';
     let checkedInput = true;
-
 
     const login = loginBaseUrl + encodeURIComponent(window.location.href);
     const getValueFromHtml = tagId => document.querySelector(`#${tagId}`).value;
-
 
     const checkElement = document.getElementById('save_informations');
     const getObject = sessionStorage.getItem('mfe-infor');
     const dataBase = JSON.parse(getObject);
 
-
     const defaultHostname = 'https://sales-sit-g4.dell.com';
-    const defaultVersion = '1';
-    const defaultLanguage = 'en';
-    const defaultQuoteNumber = '';
-    const defaultCountry = 'US';
-
 
     document.querySelector('#hostname').value =
       dataBase?.hostname ?? defaultHostname;
 
-
-    document.querySelector('#version').value =
-      dataBase?.version ?? defaultVersion;
-
-
-    document.querySelector('#quote-number').value =
-      dataBase?.quoteNumber ?? defaultQuoteNumber;
-
-
-    document.querySelector('#language').value =
-      dataBase?.language ?? defaultLanguage;
-
-
-    document.querySelector('#country').value =
-      dataBase?.country ?? defaultCountry;
-
-
     function authenticateUser() {
       const hostnameValue = getValueFromHtml('hostname') ?? '';
-      const versionValue = getValueFromHtml('version') ?? '';
-      const quoteNumberValue = getValueFromHtml('quote-number') ?? '';
-      const countryValue = getValueFromHtml('country') ?? '';
-      const languageValue = getValueFromHtml('language') ?? '';
-
 
       hostnameInput = hostnameValue.trim();
-      quoteNumberInput = quoteNumberValue.trim();
-      versionInput = versionValue.trim();
-      countryInput = countryValue.trim();
-      languageInput = languageValue.trim();
-
 
       let hostname = hostnameInput ?? defaultHostname;
-
 
       tokenAuth(hostname).then(result => {
         if (result === 200) {
@@ -219,11 +127,9 @@
       });
     }
 
-
     async function tokenAuth(hostname) {
       let response;
       let tokenUrl = `${hostname}/salesapp/api/v1/Token/token`;
-
 
       await fetch(tokenUrl, {
         headers: { 'X-Requested-With': 'XMLHttpRequest' },
@@ -236,14 +142,11 @@
           console.log(err);
         });
 
-
       return response;
     }
 
-
     function autoAuth() {
       const hostname = hostnameInput ?? dataBase?.hostname;
-
 
       if (!document.getElementById('hostnameDiv')) {
         tokenAuth(hostname).then(result => {
@@ -252,38 +155,26 @@
       }
     }
 
-
     function handleInputChecked() {
       checkedInput = checkElement.checked;
     }
 
-
     function disabledButton() {
       if (document.getElementById('hostnameDiv')) {
-        getValueFromHtml('hostname') === '' ||
-        getValueFromHtml('version') === '' ||
-        getValueFromHtml('quote-number') === '' ||
-        getValueFromHtml('language') === '' ||
-        getValueFromHtml('country') === ''
+        getValueFromHtml('hostname') === ''
           ? (document.querySelector('#btnAuthenticate').disabled = true)
           : (document.querySelector('#btnAuthenticate').disabled = false);
         document.querySelector('#parentDiv').style.display = 'none';
       }
     }
 
-
     function dataInforValidation() {
       if (getObject) {
         if (dataBase.save) {
           hostnameDiv.remove();
           hostnameInput = dataBase.hostname;
-          quoteNumberInput = dataBase.quoteNumber;
-          versionInput = dataBase.version;
-          countryInput = dataBase.country;
-          languageInput = dataBase.language;
           loadMfe();
         }
-
 
         checkedInput = false;
         checkElement.removeAttribute('checked');
@@ -291,41 +182,28 @@
       }
     }
 
-
     function loadMfe() {
       var element = document.getElementsByTagName(
         'create-mfe-app'
       )[0];
       if (element) element.remove();
 
-
       const mfeElement = document.createElement('create-mfe-app');
       const parentDiv = document.querySelector('#parentDiv');
-
 
       const mfeInfor = {
         save: checkedInput,
         hostname: hostnameInput,
-        quoteNumber: quoteNumberInput,
-        version: versionInput,
-        country: countryInput,
-        language: languageInput
       };
+
       sessionStorage.setItem('mfe-infor', JSON.stringify(mfeInfor));
 
-
       mfeElement.setAttribute('hostname', hostnameInput);
-      mfeElement.setAttribute('quote-number', quoteNumberInput);
-      mfeElement.setAttribute('version', versionInput);
-      mfeElement.setAttribute('country', countryInput);
-      mfeElement.setAttribute('language', languageInput);
-
 
       parentDiv.appendChild(mfeElement);
       parentDiv.removeAttribute('style');
       autoAuth();
     }
-
 
     dataInforValidation();
     disabledButton();
