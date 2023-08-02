@@ -1,27 +1,66 @@
-# CreateMfeApp
+# create-mfe-app
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.1.5.
+## Description
+This Angular project was created in order to create the a new architecture. This MFE will be placed in the following pages:
 
-## Development server
+- Quote Summary Page
+- Create Quote Page
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+For further information, please visit the following links: "Confluence information's"
 
-## Code scaffolding
+## Run before commiting changes
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+- npm run prettier
+- npm run lint
 
-## Build
+## Commit message types
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+- 👷build
+- 👷ci
+- 📝docs
+- ✨feat
+- 🐛bug
+- ⚡️perf
+- ♻️refactor
+- ⏪️revert
+- 💄style
+- ✅test
+- 🔧chore
+- 🔀merge
+- 🚧wip
+
+### Commit example
+:sparkles: feat: Create new component
+
+## Running this application locally
+
+- git clone <this repository>
+- npm install
+- npm run start
+
+## How to build the MFE bundle JS file
+
+- npm run build-prod
+- create-mfe-app-1.0.js will be in the dist folder
+
+
+## Test Page
+
+The file index.html is in charge of rendering the Test Page
 
 ## Running unit tests
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+- npm run test
+- npm run test:watch
+- npm run test:coverage
 
-## Running end-to-end tests
+## Used tools
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+- Angular 16
+- DDS 2
+- Jest
+- Prettier
+- ESLint
+- Husky
+- Commitlint
+- Lint-staged
