@@ -29,7 +29,6 @@ For further information, please visit the following links: "Confluence informati
 - 🔀merge
 - 🚧wip
 
-
 ### Commit example
 :sparkles: feat: Create new component
 
@@ -49,18 +48,15 @@ For further information, please visit the following links: "Confluence informati
 
 The file index.html is in charge of rendering the Test Page
 
-
 ## Running unit tests
-
 
 - npm run test
 - npm run test:watch
 - npm run test:coverage
 
-
 ## Used tools
 
-- Angular 16.1.5
+- Angular 16
 - DDS 2
 - Jest
 - Prettier
@@ -68,8 +64,3 @@ The file index.html is in charge of rendering the Test Page
 - Husky
 - Commitlint
 - Lint-staged
-
-
-
-
-
