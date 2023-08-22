@@ -34,6 +34,7 @@ import { Component, Input } from '@angular/core';
             font-size: 2.6rem;
             padding-bottom: 2rem;
             color: #c3002f;
+            font-weight: bold;
           }
         }
       }
