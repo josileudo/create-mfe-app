@@ -26,15 +26,12 @@ import { Component, Input } from '@angular/core';
 
           h3 {
             margin: 0;
-            color: #c6c6c6;
           }
 
           h1 {
             margin: 0;
             font-size: 2.6rem;
             padding-bottom: 2rem;
-            color: #c3002f;
-            font-weight: bold;
           }
         }
       }
